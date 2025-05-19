@@ -2,31 +2,29 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/server.js",
+      "src": "backend/index.js",
       "use": "@vercel/node"
     },
     {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist/ipt-final"
+        "distDir": "dist/ipt-final/browser"
       }
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "backend/server.js"
+      "dest": "backend/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "dist/ipt-final/$1"
+      "dest": "/dist/ipt-final/browser/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/ipt-final/browser/index.html"
     }
-  ],
-  "env": {
-    "DB_HOST": "153.92.15.31",
-    "DB_USER": "u875409848_marson",
-    "DB_PASSWORD": "9T2Z5$3UKkgSYzE",
-    "DB_NAME": "u875409848_marson"
-  }
+  ]
 } 

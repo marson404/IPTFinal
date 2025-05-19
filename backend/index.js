@@ -9,7 +9,6 @@ const workflowsRouter = require('./routes/workflows');
 const requestsRouter = require('./routes/requests');
 
 const app = express();
-const port = 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -28,6 +27,13 @@ app.use('/api/employees', employeesRouter);
 app.use('/api/workflows', workflowsRouter);
 app.use('/api/requests', requestsRouter);
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
+}
+
+// Export for Vercel
+module.exports = app;
