@@ -2,8 +2,12 @@ services:
   - type: web
     name: ipt-final
     env: node
-    buildCommand: npm install -g @angular/cli && npm install && npm run build
-    startCommand: npx serve -s dist/ipt-final
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s dist/ipt-final -l $PORT
     envVars:
       - key: NODE_VERSION
-        value: 18.17.0 
+        value: 18.17.0
+      - key: PORT
+        value: 3000
+    healthCheckPath: /
+    autoDeploy: true 
