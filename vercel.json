@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/**/*",
+      "src": "backend/server.js",
       "use": "@vercel/node"
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "dist/ipt-final/$1"
     }
   ],
   "env": {
