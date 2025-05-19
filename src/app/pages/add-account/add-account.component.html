@@ -1,0 +1,114 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Add Account</h2>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #accountForm="ngForm">
+    <div class="form-container">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <select id="title" [(ngModel)]="account.title" name="title" required>
+          <option value="Mr">Mr</option>
+          <option value="Mrs">Mrs</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="first_name">First Name</label>
+        <input
+          type="text"
+          id="first_name"
+          [(ngModel)]="account.first_name"
+          name="first_name"
+          required
+          #firstName="ngModel"
+        />
+        <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="error-message">
+          First name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="last_name">Last Name</label>
+        <input
+          type="text"
+          id="last_name"
+          [(ngModel)]="account.last_name"
+          name="last_name"
+          required
+          #lastName="ngModel"
+        />
+        <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="error-message">
+          Last name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="account.email"
+          name="email"
+          required
+          email
+          #email="ngModel"
+        />
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
+          <div *ngIf="email.errors?.['required']">Email is required</div>
+          <div *ngIf="email.errors?.['email']">Please enter a valid email address</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input-container">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            minlength="6"
+            #passwordField="ngModel"
+            class="form-control"
+          />
+          <button type="button" class="password-toggle" (click)="showPassword = !showPassword">
+            <i class="fas" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+          </button>
+        </div>
+        <div *ngIf="passwordField.invalid && (passwordField.dirty || passwordField.touched)" class="error-message">
+          <div *ngIf="passwordField.errors?.['required']">Password is required</div>
+          <div *ngIf="passwordField.errors?.['minlength']">Password must be at least 6 characters long</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" [(ngModel)]="account.role" name="role" required>
+          <option value="Admin">Admin</option>
+          <option value="User">User</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" [(ngModel)]="account.status" name="status" required>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button type="submit" [disabled]="!accountForm.form.valid || loading">
+        {{ loading ? 'Saving...' : 'Save' }}
+      </button>
+      <button type="button" class="cancel" (click)="cancel()" [disabled]="loading">Cancel</button>
+    </div>
+  </form>
+</div>

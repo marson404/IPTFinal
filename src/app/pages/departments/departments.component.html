@@ -1,0 +1,59 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Departments Management</h2>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="loading-spinner">
+    <i class="icon fas fa-spinner fa-spin"></i>
+    Loading...
+  </div>
+
+  <!-- Departments Table -->
+  <div class="card-body">
+    <table *ngIf="!loading && departments.length > 0" class="data-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Employee Count</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dept of departments">
+          <td>{{ dept.name }}</td>
+          <td>{{ dept.description }}</td>
+          <td><span class="badge badge-primary">{{ dept.employeeCount || 0 }}</span></td>
+          <td>{{ dept.created_at | date:'medium' }}</td>
+          <td class="action-buttons">
+            <button class="btn btn-primary" (click)="editDepartment(dept.id!)">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="btn btn-danger" (click)="deleteDepartment(dept.id!)">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- No records message -->
+  <div *ngIf="!loading && departments.length === 0" class="no-records">
+    No departments found.
+  </div>
+
+  <!-- Footer with Add button -->
+  <div class="card-footer">
+    <button class="btn btn-primary" (click)="addDepartment()">
+      <i class="fas fa-plus"></i> Add Department
+    </button>
+  </div>
+</div>

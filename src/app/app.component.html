@@ -1,0 +1,11 @@
+<!-- app.component.html -->
+<nav style="background-color: #1976d2; padding: 1rem; color: white;">
+  <a routerLink="/accounts" routerLinkActive="active" style="margin-right: 1rem; color: white; text-decoration: none;">Accounts</a>
+  <a routerLink="/employees" routerLinkActive="active" style="margin-right: 1rem; color: white; text-decoration: none;">Employees</a>
+  <a routerLink="/departments" routerLinkActive="active" style="margin-right: 1rem; color: white; text-decoration: none;">Departments</a>
+  <a routerLink="/requests" routerLinkActive="active" style="color: white; text-decoration: none;">Requests</a>
+</nav>
+
+<div style="padding: 1rem;">
+  <router-outlet></router-outlet>
+</div>

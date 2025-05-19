@@ -1,0 +1,111 @@
+<div class="card">
+    <div class="card-header">
+      <h2>WORKFLOW - {{ employeeName }}</h2>
+    </div>
+
+    <div class="card-body">
+      <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+      </div>
+
+      <div *ngIf="loading" class="loading-spinner">
+        <i class="icon fas fa-spinner fa-spin"></i>
+        Loading...
+      </div>
+
+      <table *ngIf="!loading && workflows.length > 0" class="data-table">
+        <thead>
+          <tr>
+            <th>Request Type</th>
+            <th>Items</th>
+            <th>Current Step</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Status Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let workflow of workflows">
+            <td>
+              <span class="badge" [ngClass]="{
+                'badge-primary': workflow.request_type === 'Leave',
+                'badge-warning': workflow.request_type === 'Equipment',
+                'badge-info': workflow.request_type === 'Resources',
+                'badge-success': workflow.request_type === 'Onboarding',
+                'badge-secondary transfer-badge': workflow.request_type === 'Department Transfer'
+              }">{{ workflow.request_type }}</span>
+            </td>
+            <td>{{ workflow.request_items }}</td>
+            <td>{{ workflow.current_step }}</td>
+            <td>
+              <span class="badge" [ngClass]="{
+                'badge-warning': workflow.status === 'Pending',
+                'badge-success': workflow.status === 'Approved',
+                'badge-danger': workflow.status === 'Rejected'
+              }">{{ workflow.status }}</span>
+            </td>
+            <td>{{ workflow.created_at | date:'medium' }}</td>
+            <td>{{ workflow.updated_at | date:'medium' }}</td>
+            <td>
+              <select class="form-control" [(ngModel)]="workflow.status" (change)="updateStatus(workflow)">
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="!loading && workflows.length === 0" class="no-records">
+        No workflow items found.
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-secondary" (click)="goBack()">Back to Employees</button>
+      </div>
+    </div>
+</div>
+
+<style>
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.data-table th,
+.data-table td {
+  padding: 1rem;
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+
+.data-table th {
+  background-color: #f8f9fa;
+  font-weight: 500;
+}
+
+.badge {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: normal;
+}
+
+.form-control {
+  padding: 0.5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+</style>
+  

@@ -1,0 +1,92 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Accounts Management</h2>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <i class="icon fas fa-spinner fa-spin"></i>
+    Loading...
+  </div>
+
+  <div class="card-body">
+    <table *ngIf="!loading && accounts.length > 0" class="data-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+          <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of accounts">
+        <td>{{ account.title }}</td>
+          <td>{{ account.first_name }}</td>
+          <td>{{ account.last_name }}</td>
+        <td>{{ account.email }}</td>
+          <td>
+            <span class="badge badge-primary user-role" *ngIf="account.role === 'Admin'">Admin</span>
+            <span class="badge badge-secondary user-role" *ngIf="account.role === 'User'">User</span>
+          </td>
+          <td>
+            <span class="badge badge-success" *ngIf="account.status === 'Active'">Active</span>
+            <span class="badge badge-danger" *ngIf="account.status !== 'Active'">Inactive</span>
+          </td>
+        <td>
+            <button class="btn btn-primary" (click)="editAccount(account.id!)">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+    <div *ngIf="!loading && accounts.length === 0" class="no-records">
+    No accounts found.
+    </div>
+  </div>
+  
+  <div class="card-footer">
+    <button class="btn btn-primary" (click)="addAccount()">
+      <i class="fas fa-plus"></i> Add Account
+    </button>
+  </div>
+</div>
+
+<style>
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.data-table th,
+.data-table td {
+  padding: 1rem;
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+
+.data-table th {
+  background-color: #f8f9fa;
+  font-weight: 500;
+}
+
+.badge {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: normal;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+</style>

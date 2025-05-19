@@ -1,0 +1,90 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Edit Account</h2>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    Loading...
+  </div>
+
+  <form *ngIf="account && !loading" #accountForm="ngForm">
+    <label>
+      Title:
+      <select [(ngModel)]="account.title" name="title" required>
+        <option value="Mr">Mr</option>
+        <option value="Mrs">Mrs</option>
+      </select>
+    </label>
+
+    <label>
+      First Name:
+      <input [(ngModel)]="account.first_name" name="first_name" required #firstName="ngModel" />
+      <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="error-message">
+        First name is required
+      </div>
+    </label>
+
+    <label>
+      Last Name:
+      <input [(ngModel)]="account.last_name" name="last_name" required #lastName="ngModel" />
+      <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="error-message">
+        Last name is required
+      </div>
+    </label>
+
+    <label>
+      Email:
+      <input [(ngModel)]="account.email" name="email" required email #email="ngModel" />
+      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
+        <div *ngIf="email.errors?.['required']">Email is required</div>
+        <div *ngIf="email.errors?.['email']">Please enter a valid email address</div>
+      </div>
+    </label>
+
+    <label>
+      Role:
+      <select [(ngModel)]="account.role" name="role" required>
+        <option value="Admin">Admin</option>
+        <option value="User">User</option>
+      </select>
+    </label>
+
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select [(ngModel)]="account.status" name="status" required>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+    </div>
+
+    <!-- New Password Reset Section -->
+    <div class="form-group password-reset-section">
+      <label for="newPassword">New Password</label>
+      <input
+        type="password"
+        id="newPassword"
+        [(ngModel)]="newPassword"
+        name="newPassword"
+        minlength="6"
+        #passwordField="ngModel"
+      />
+      <div *ngIf="passwordField.invalid && (passwordField.dirty || passwordField.touched)" class="error-message">
+        Password must be at least 6 characters long
+      </div>
+      <small class="help-text">Leave blank to keep current password</small>
+    </div>
+
+    <div class="button-group">
+      <button type="button" (click)="save()" [disabled]="!accountForm.form.valid || loading">
+        {{ loading ? 'Saving...' : 'Save' }}
+      </button>
+      <button type="button" class="cancel" (click)="cancel()" [disabled]="loading">Cancel</button>
+    </div>
+  </form>
+
+  <p *ngIf="!account">Account not found!</p>
+</div>

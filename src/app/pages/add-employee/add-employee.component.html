@@ -1,0 +1,115 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Add Employee</h2>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger mx-3 mt-3">
+    {{ error }}
+  </div>
+
+  <form #employeeForm="ngForm" (ngSubmit)="onSubmit()" class="form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <select
+          id="email"
+          name="email"
+          class="form-control"
+          [(ngModel)]="employee.email"
+          required
+          #email="ngModel"
+        >
+          <option value="">Select an email</option>
+          <option *ngFor="let account of activeAccountEmails" [value]="account.email">
+            {{ account.email }}
+          </option>
+        </select>
+        <div *ngIf="email.invalid && (email.dirty || email.touched || formSubmitted)" class="alert alert-danger">
+          <div *ngIf="email.errors?.['required']">Email is required.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="position">Position *</label>
+        <input
+          id="position"
+          name="position"
+          type="text"
+          [(ngModel)]="employee.position"
+          required
+          #positionField="ngModel"
+          class="form-control"
+          [class.is-invalid]="(positionField.invalid && positionField.touched) || (formSubmitted && positionField.invalid)"
+        />
+        <div class="invalid-feedback" *ngIf="(positionField.invalid && positionField.touched) || (formSubmitted && positionField.invalid)">
+          Position is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="department">Department *</label>
+        <select
+          id="department"
+          name="department"
+          [(ngModel)]="employee.department"
+          required
+          #departmentField="ngModel"
+          class="form-control"
+          [class.is-invalid]="(departmentField.invalid && departmentField.touched) || (formSubmitted && departmentField.invalid)"
+        >
+          <option value="">Select department</option>
+          <option *ngFor="let dept of departments" [value]="dept.name">{{ dept.name }}</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="(departmentField.invalid && departmentField.touched) || (formSubmitted && departmentField.invalid)">
+          Department is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="hireDate">Hire Date *</label>
+        <input
+          id="hireDate"
+          name="hireDate"
+          type="date"
+          [(ngModel)]="employee.hire_date"
+          required
+          #hireDateField="ngModel"
+          class="form-control"
+          [class.is-invalid]="(hireDateField.invalid && hireDateField.touched) || (formSubmitted && hireDateField.invalid)"
+        />
+        <div class="invalid-feedback" *ngIf="(hireDateField.invalid && hireDateField.touched) || (formSubmitted && hireDateField.invalid)">
+          Hire Date is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="status">Status *</label>
+        <select 
+          id="status" 
+          name="status" 
+          [(ngModel)]="employee.status" 
+          required
+          #statusField="ngModel"
+          class="form-control"
+          [class.is-invalid]="(statusField.invalid && statusField.touched) || (formSubmitted && statusField.invalid)"
+        >
+          <option value="">Select status</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="(statusField.invalid && statusField.touched) || (formSubmitted && statusField.invalid)">
+          Status is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary">Add Employee</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,51 @@
+<div class="card">
+    <div class="card-header">
+      <h2>Edit Request</h2>
+    </div>
+  
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+  
+    <div *ngIf="loading" class="loading-spinner">
+      Loading...
+    </div>
+  
+    <form *ngIf="!loading" class="form" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="type">Type *</label>
+        <select id="type" class="form-control" [(ngModel)]="request.type" name="type" required>
+          <option value="" disabled>Select Type</option>
+          <option value="Equipment">Equipment</option>
+          <option value="Leave">Leave</option>
+          <option value="Resources">Resources</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="employee">Employee *</label>
+        <select id="employee" class="form-control" [(ngModel)]="request.employee" name="employee" required>
+          <option value="" disabled>Select Employee</option>
+          <option *ngFor="let emp of activeEmployees" [value]="emp.email">
+            {{ emp.email }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label>Items *</label>
+        <div *ngFor="let item of request.items; let i = index" class="item-row">
+          <input type="text" placeholder="Item Name" class="form-control" [(ngModel)]="item.name" [name]="'itemName' + i" required>
+          <input type="number" min="1" class="form-control" [(ngModel)]="item.quantity" [name]="'itemQty' + i" required>
+          <button type="button" class="btn btn-danger" (click)="removeItem(i)" *ngIf="request.items.length > 1">Remove</button>
+        </div>
+        <button type="button" class="btn btn-secondary mt-2" (click)="addItem()">Add Item</button>
+      </div>
+  
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+  

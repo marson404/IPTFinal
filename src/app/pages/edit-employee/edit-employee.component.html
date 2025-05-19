@@ -1,0 +1,121 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Edit Employee</h2>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    Loading...
+  </div>
+
+  <form *ngIf="!loading && employee" #employeeForm="ngForm" (ngSubmit)="onSubmit()" class="form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <select
+          id="email"
+          name="email"
+          [(ngModel)]="employee.email"
+          required
+          #emailField="ngModel"
+          class="form-control"
+          [class.is-invalid]="emailField.invalid && emailField.touched"
+        >
+          <option value="">Select an email</option>
+          <option *ngFor="let email of activeAccountEmails" [value]="email">
+            {{ email }}
+          </option>
+        </select>
+        <div class="invalid-feedback" *ngIf="emailField.invalid && emailField.touched">
+          <div *ngIf="emailField.errors?.['required']">Email is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="position">Position *</label>
+        <input
+          id="position"
+          name="position"
+          type="text"
+          [(ngModel)]="employee.position"
+          required
+          #positionField="ngModel"
+          class="form-control"
+          [class.is-invalid]="positionField.invalid && positionField.touched"
+        />
+        <div class="invalid-feedback" *ngIf="positionField.invalid && positionField.touched">
+          Position is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="department">Department *</label>
+        <select
+          id="department"
+          name="department"
+          [(ngModel)]="employee.department_id"
+          (ngModelChange)="onDepartmentChange($event)"
+          required
+          #departmentField="ngModel"
+          class="form-control"
+          [class.is-invalid]="departmentField.invalid && departmentField.touched"
+        >
+          <option value="">Select department</option>
+          <option *ngFor="let dept of departments" [value]="dept.id">{{ dept.name }}</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="departmentField.invalid && departmentField.touched">
+          Department is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="hireDate">Hire Date *</label>
+        <input
+          id="hireDate"
+          name="hireDate"
+          type="date"
+          [(ngModel)]="employee.hire_date"
+          required
+          #hireDateField="ngModel"
+          class="form-control"
+          [class.is-invalid]="hireDateField.invalid && hireDateField.touched"
+        />
+        <div class="invalid-feedback" *ngIf="hireDateField.invalid && hireDateField.touched">
+          Hire Date is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="status">Status *</label>
+        <select 
+          id="status" 
+          name="status" 
+          [(ngModel)]="employee.status" 
+          required
+          #statusField="ngModel"
+          class="form-control"
+          [class.is-invalid]="statusField.invalid && statusField.touched"
+        >
+          <option value="">Select status</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="statusField.invalid && statusField.touched">
+          Status is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!employeeForm.form.valid">Save Changes</button>
+    </div>
+  </form>
+</div>

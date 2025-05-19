@@ -1,0 +1,61 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Add Department</h2>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    Loading...
+  </div>
+
+  <form *ngIf="!loading" #departmentForm="ngForm" (ngSubmit)="onSubmit(departmentForm)" class="form">
+    <div class="form-group">
+      <label for="name">Department Name *</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        [(ngModel)]="department.name"
+        required
+        #nameField="ngModel"
+        class="form-control"
+        [class.is-invalid]="(nameField.invalid && nameField.touched) || (formSubmitted && nameField.invalid)"
+      />
+      <div class="invalid-feedback" *ngIf="(nameField.invalid && nameField.touched) || (formSubmitted && nameField.invalid)">
+        Department name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Department Description *</label>
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="department.description"
+        required
+        #descField="ngModel"
+        class="form-control"
+        [class.is-invalid]="(descField.invalid && descField.touched) || (formSubmitted && descField.invalid)"
+        rows="3"
+      ></textarea>
+      <div class="invalid-feedback" *ngIf="(descField.invalid && descField.touched) || (formSubmitted && descField.invalid)">
+        Description is required
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      <button 
+        type="submit" 
+        class="btn btn-primary" 
+        [disabled]="loading"
+      >
+        Add Department
+      </button>
+    </div>
+  </form>
+</div>
+  

@@ -1,0 +1,164 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Employees Management</h2>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="loading-spinner">
+    <i class="icon fas fa-spinner fa-spin"></i>
+    Loading...
+  </div>
+
+  <!-- Employees Table -->
+  <div class="card-body">
+    <table *ngIf="!loading && employees.length > 0" class="data-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Position</th>
+          <th>Department</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees">
+          <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.position }}</td>
+          <td>{{ employee.department }}</td>
+          <td>
+            <span class="badge badge-success" *ngIf="employee.status === 'Active'">Active</span>
+            <span class="badge badge-danger" *ngIf="employee.status !== 'Active'">Inactive</span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-primary" (click)="editEmployee(employee.id)">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn btn-secondary" (click)="viewRequests(employee)">
+                <i class="fas fa-clipboard-list"></i> Requests
+              </button>
+              <button class="btn btn-info" (click)="viewWorkflow(employee)">
+                <i class="fas fa-project-diagram"></i> Workflow
+              </button>
+              <button class="btn btn-warning" (click)="openTransferModal(employee)">
+                <i class="fas fa-exchange-alt"></i> Transfer
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- No records message -->
+    <div *ngIf="!loading && employees.length === 0" class="no-records">
+      No employees found.
+    </div>
+  </div>
+
+  <!-- Footer with Add button -->
+  <div class="card-footer">
+    <button class="btn btn-success" (click)="addEmployee()">
+      <i class="fas fa-plus"></i> Add Employee
+    </button>
+  </div>
+</div>
+
+<!-- Transfer Modal -->
+<div class="modal-overlay" *ngIf="showTransferModal">
+  <div class="modal">
+    <div class="modal-content">
+      <div class="card-header">
+        <h3>Transfer Employee</h3>
+      </div>
+      
+      <div class="card-body">
+        <p class="employee-info">
+          Transfer <strong>{{ selectedEmployee?.first_name }} {{ selectedEmployee?.last_name }}</strong>
+          <br>
+          from <span class="badge badge-primary">{{ selectedEmployee?.department }}</span> to:
+        </p>
+        
+        <div class="form-group">
+          <select [(ngModel)]="newDepartment" class="form-control">
+            <option value="">Select Department</option>
+            <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <button class="btn btn-secondary" (click)="closeTransferModal()">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button class="btn btn-primary" (click)="transferEmployee()" [disabled]="!newDepartment">
+          <i class="fas fa-exchange-alt"></i> Transfer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.data-table th,
+.data-table td {
+  padding: 1rem;
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+
+.data-table th {
+  background-color: #f8f9fa;
+  font-weight: 500;
+}
+
+.badge {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: normal;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.btn:last-child {
+  margin-right: 0;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+</style>
