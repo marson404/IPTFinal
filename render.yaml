@@ -2,7 +2,7 @@ services:
   - type: web
     name: ipt-final
     env: node
-    buildCommand: cd backend && npm install && cd .. && npm install && npm run build
+    buildCommand: cd backend && npm install && cd .. && npm install && npm run build && mkdir -p backend/public && cp -r dist/ipt-final/* backend/public/
     startCommand: cd backend && npm start
     envVars:
       - key: NODE_VERSION
