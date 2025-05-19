@@ -2,7 +2,7 @@ services:
   - type: web
     name: ipt-final
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: npm install && npx ng build
     startCommand: npx serve -s dist/ipt-final
     envVars:
       - key: NODE_VERSION
