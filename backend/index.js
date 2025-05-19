@@ -20,10 +20,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/auth', authRouter);
-app.use('/accounts', accountsRouter);
-app.use('/departments', departmentsRouter);
-app.use('/employees', employeesRouter);
+// Routes with /api prefix
+app.use('/api/auth', authRouter);
+app.use('/api/accounts', accountsRouter);
+app.use('/api/departments', departmentsRouter);
+app.use('/api/employees', employeesRouter);
 app.use('/api/workflows', workflowsRouter);
 app.use('/api/requests', requestsRouter);
 

@@ -2,13 +2,17 @@
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',         // default XAMPP user
-  password: '',         // default XAMPP password is empty
-  database: 'ipt_final_db',
+  host: '153.92.15.31',
+  user: 'u875409848_marson',
+  password: '9T2Z5$3UKkgSYzE',
+  database: 'u875409848_marson',
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  connectTimeout: 10000, // 10 seconds
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // Test the connection

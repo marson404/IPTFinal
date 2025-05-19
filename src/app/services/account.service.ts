@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export type Title = 'Mr' | 'Mrs' | 'Ms' | 'Dr';
@@ -42,7 +42,8 @@ export interface UpdateAccountDto {
     providedIn: 'root'
 })
 export class AccountService {
-    private apiUrl = `${environment.apiUrl}/accounts`;
+    private apiUrl = `${environment.apiUrl}/api/accounts`;
+    private authUrl = `${environment.apiUrl}/api/auth`;
 
     constructor(private http: HttpClient) { }
 
@@ -73,15 +74,23 @@ export class AccountService {
 
     // Create new account
     create(account: CreateAccountDto): Observable<Account> {
-        return this.http.post<Account>(this.apiUrl, account).pipe(
+        return this.http.post<{ message: string; user: Account }>(`${this.authUrl}/register`, account).pipe(
+            map(response => response.user),
             catchError(this.handleError)
         );
     }
 
     // Update account
     update(id: number, account: UpdateAccountDto): Observable<Account> {
+        console.log('Updating account:', { id, account });
         return this.http.put<Account>(`${this.apiUrl}/${id}`, account).pipe(
-            catchError(this.handleError)
+            tap(response => console.log('Update response:', response)),
+            catchError(error => {
+                console.error('Update error:', error);
+                return throwError(() => ({
+                    message: error.error?.message || error.error?.error || error.message || 'Failed to update account'
+                }));
+            })
         );
     }
 

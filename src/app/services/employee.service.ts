@@ -37,7 +37,7 @@ interface CreateEmployeeResponse {
   providedIn: 'root'
 })
 export class EmployeeService {
-  private apiUrl = `${environment.apiUrl}/employees`;
+  private apiUrl = `${environment.apiUrl}/api/employees`;
 
   constructor(private http: HttpClient) {
     console.log('Employee service initialized with URL:', this.apiUrl);

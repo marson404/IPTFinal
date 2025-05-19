@@ -7,6 +7,13 @@ const db = require('../db');
 // Get all accounts
 router.get('/', async (req, res) => {
   try {
+    // Check if status query parameter is provided
+    if (req.query.status) {
+      const [rows] = await db.query('SELECT * FROM users WHERE status = ?', [req.query.status]);
+      res.json(rows);
+      return;
+    }
+    
     const [rows] = await db.query('SELECT * FROM users');
     res.json(rows);
   } catch (err) {

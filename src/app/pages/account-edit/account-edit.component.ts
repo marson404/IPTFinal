@@ -333,23 +333,35 @@ export class AccountEditComponent implements OnInit {
     this.submitting = true;
     this.error = '';
 
-    // Create update data including password if provided
+    console.log('Submitting update for account:', this.account.id);
+    
+    // Create update data with only the fields the backend expects
     const updateData: UpdateAccountDto = {
-      ...this.account
+      title: this.account.title,
+      first_name: this.account.first_name,
+      last_name: this.account.last_name,
+      role: this.account.role,
+      status: this.account.status,
+      email: this.account.email
     };
+    
     if (this.newPassword) {
       updateData.password = this.newPassword;
     }
 
+    console.log('Update data:', updateData);
+
     this.accountService.update(this.account.id, updateData).subscribe({
-        next: () => {
-          this.router.navigate(['/accounts']);
-        },
-        error: (error) => {
-        this.error = error.message;
+      next: (response) => {
+        console.log('Update successful:', response);
+        this.router.navigate(['/accounts']);
+      },
+      error: (error) => {
+        console.error('Update failed:', error);
+        this.error = error.message || 'Failed to update account';
         this.submitting = false;
-        }
-      });
+      }
+    });
   }
 
   cancel() {

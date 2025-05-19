@@ -22,9 +22,8 @@ export class AddAccountComponent {
     status: 'Active'
   };
 
-  password: string = 'default123'; // Default password
+  password: string = '';
   showPassword: boolean = false;
-  useDefaultPassword = true;
   loading = false;
   error = '';
 
@@ -36,11 +35,10 @@ export class AddAccountComponent {
   onSubmit() {
     if (this.isFormValid()) {
       this.loading = true;
-      const finalPassword = this.useDefaultPassword ? 'default123' : this.password;
       
       const createAccountData: CreateAccountDto = {
         ...this.account,
-        password: finalPassword
+        password: this.password
       };
       
       this.accountService.create(createAccountData)
@@ -65,7 +63,8 @@ export class AddAccountComponent {
       this.account.email &&
       this.account.role &&
       this.account.status &&
-      (this.useDefaultPassword || (this.password && this.password.length >= 6))
+      this.password &&
+      this.password.length >= 6
     );
   }
 

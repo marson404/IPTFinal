@@ -27,7 +27,7 @@ export class AddEmployeeComponent implements OnInit {
   @ViewChild('employeeForm') employeeForm!: NgForm;
   formSubmitted = false;
   departments: Department[] = [];
-  activeAccountEmails: ActiveUser[] = [];
+  activeAccountEmails: { id: number; email: string }[] = [];
   error = '';
   isSubmitting = false;
 
@@ -60,9 +60,11 @@ export class AddEmployeeComponent implements OnInit {
           id: user.id,
           email: user.email
         }));
+        console.log('Active users loaded:', this.activeAccountEmails);
       },
       error: (error) => {
         this.error = 'Error loading data: ' + error;
+        console.error('Error loading data:', error);
       }
     });
   }
