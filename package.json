@@ -1,10 +1,14 @@
 {
   "name": "ipt-final",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=18.18.0 <19.0.0"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npx ng build",
+    "build": "ng build",
+    "vercel-build": "cd backend && npm install && cd .. && npm install && npm run build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
