@@ -19,11 +19,11 @@
       "dest": "/backend/index.js"
     },
     {
-      "handle": "filesystem"
-    },
-    {
       "src": "/assets/(.*)",
       "dest": "/dist/ipt-final/browser/assets/$1"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
