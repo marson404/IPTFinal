@@ -16,11 +16,14 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "backend/index.js"
+      "dest": "/backend/index.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/dist/ipt-final/browser/$1"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/dist/ipt-final/browser/assets/$1"
     },
     {
       "src": "/(.*)",
