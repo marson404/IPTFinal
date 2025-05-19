@@ -1,6 +1,9 @@
 {
   "name": "ipt-final",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=18.18.0 <19.0.0"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
