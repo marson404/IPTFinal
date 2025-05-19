@@ -2,8 +2,8 @@ services:
   - type: web
     name: ipt-final
     env: node
-    buildCommand: npm install && npm run build
-    startCommand: npx serve -s dist/ipt-final -l $PORT
+    buildCommand: cd backend && npm install && cd .. && npm install && npm run build
+    startCommand: cd backend && npm start
     envVars:
       - key: NODE_VERSION
         value: 18.17.0
