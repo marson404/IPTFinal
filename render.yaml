@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ipt-final
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s dist/ipt-final
+    envVars:
+      - key: NODE_VERSION
+        value: 18.0.0 
