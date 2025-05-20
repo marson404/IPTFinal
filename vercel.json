@@ -13,21 +13,29 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/backend/index.js"
+      "source": "/api/:path*",
+      "destination": "/backend/index.js"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/dist/ipt-final/browser/assets/$1"
+      "source": "/assets/:path*",
+      "destination": "/dist/ipt-final/browser/assets/:path*"
     },
     {
-      "handle": "filesystem"
-    },
+      "source": "/:path*",
+      "destination": "/dist/ipt-final/browser/index.html"
+    }
+  ],
+  "headers": [
     {
-      "src": "/(.*)",
-      "dest": "/dist/ipt-final/browser/index.html"
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
     }
   ]
 } 
